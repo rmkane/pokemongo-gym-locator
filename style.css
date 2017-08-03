@@ -10,18 +10,37 @@ img {
 }
 
 input, textarea {
-  max-width:100%
+  max-width: 100%
 }
 
+/** Links */
+a{
+  text-decoration: none;
+}
+a, a:active, a:visited {
+  color: #4ED098;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/** Logo */
 .logo {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 20%;
+  width: 100%;
+  height: 20%;
+}
+
+.page-home.logo {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.page-search.logo {
+  height: 10%;
 }
 
 .logo img {
@@ -29,6 +48,7 @@ input, textarea {
     margin: 0 auto;
 }
 
+/** Search */
 .search {
   width: 100%;
   position: relative
@@ -78,7 +98,7 @@ input, textarea {
   transform: translate(-50%, -50%);
 }
 
-
+/** Modal */
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -127,6 +147,7 @@ input, textarea {
   margin-top: 1em;
 }
 
+/** Results */
 .result-list {
   width: 80%;
   margin: 0 auto;
@@ -145,4 +166,14 @@ input, textarea {
   cursor: pointer;
   background: #E6FFE4;
   border-color: #CCC;
+}
+
+/** Result */
+.gym-info {
+  text-align: center;
+}
+
+a.external-link {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }

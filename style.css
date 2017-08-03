@@ -48,7 +48,7 @@ a:hover {
 }
 
 .logo img {
-    display:block;
+    display: block;
     margin: 0 auto;
 }
 
@@ -68,7 +68,7 @@ a:hover {
   -moz-border-radius: 5px;
   border-radius: 5px;
   outline: none;
-  color: #9DBFAF;
+  color: #4ED098;
 }
 
 .search-term:focus {

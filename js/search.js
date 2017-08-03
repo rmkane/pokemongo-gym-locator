@@ -9,6 +9,11 @@ $(function() {
     $('body').append(
       $('<p>').addClass('missing-query').text('Please enter a search query...'));
   } else {
+    var q = query['q'];
+    if (q.indexOf('_') > -1) {
+      q = q.replace(/[_]+/g, ' ');
+    }
+    
     $.ajax({
         url: 'data/gyms.json',
         cache : true,
@@ -17,7 +22,7 @@ $(function() {
             gymList = result.sort(function(g1, g2) {
               return g1.name.localeCompare(g2.name);
             });
-            $('body').append(generateResultList(query['q']));
+            $('body').append(generateResultList(q));
         },
         error : function(xhr, status, error) {
             console.log('Error: ' + error);
@@ -34,7 +39,7 @@ $(function() {
 
   $('.modal .modal-window .open-window-btn').first().on('click', function(e) {
     window.location.href = 'gym.html?' + $.param({
-      name : selectedGym.name
+      name : selectedGym.name.replace(/\s+/g, '_')
     });
   });
   
@@ -87,6 +92,6 @@ function generateResultList(query) {
 
 function createListItems(gyms) {
   return $('<div>').addClass('result-list').append(gyms.map(function(gym) {
-    return $('<div>').addClass('result-list-item').text(gym.name).attr('data-gym-index', gym.index);
+    return $('<div>').addClass('result-list-item').text(gym.name).attr('data-gym-index', gym.index).css('cursor','pointer');;
   }));
 }

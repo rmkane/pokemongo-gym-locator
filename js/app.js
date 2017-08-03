@@ -9,7 +9,7 @@ $(function() {
     var query = getQuery();
     if (query.length > 0) {
       window.location.href = 'search.html?' + $.param({
-        q : getQuery()
+        q : getQuery().replace(/\s+/g, '_')
       });
     }
   });

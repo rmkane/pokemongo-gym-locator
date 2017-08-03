@@ -11,12 +11,12 @@
     <!--[if IE]><link rel="shortcut icon" href="favicon.ico"><![endif]-->
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <!-- Scripts -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="jquery.query-params.js"></script>
-    <script type="text/javascript" src="common.js"></script>
-    <script type="text/javascript" src="gym.js"></script>
+    <script type="text/javascript" src="js/jquery.query-params.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
   </head>
   <body>
     <div class="page-search logo">
@@ -34,34 +34,6 @@
       </div>
     </div>
 
-    <script type="text/javascript">
-      $(function() {
-        var query = $.queryParams();
-        
-        if (query == null || query['name'] == null || query['name'] == '') {
-          $('body').append($('<p>').addClass('missing-query').text('Please provide a name...'));
-        } else {
-          $.ajax({
-              url: 'data/gyms.json',
-              cache : true,
-              contentType : 'application/json',
-              success : function(result, status, xhr) {
-                  var list = result.filter(function(item) {
-                    return item.name === query['name'];
-                  });
-                  
-                  if (list.length === 1) {
-                    $('body').append(generateGymInfo(list[0]));
-                  } else {
-                    $('body').append($('<p>').addClass('missing-query').text('Gym not found...'));
-                  }
-              },
-              error : function(xhr, status, error) {
-                  console.log('Error: ' + error);
-              }
-          });
-        }
-      });
-    </script>
+    <script type="text/javascript" src="js/gym.js"></script>
   </body>
 </html>

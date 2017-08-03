@@ -1,5 +1,4 @@
 function generateGymInfo(gym) {
-  console.log(gym.notes.length);
   return $('<div>').addClass('gym-info')
     .append($('<h1>').text(gym.name))
     .append($('<p>').html(gym.street + '<br>' + gym.city + ', ' + gym.state + ' ' + gym.zip))

@@ -24,6 +24,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.missing-query {
+  text-align: center;
+}
+
 /** Logo */
 .logo {
   width: 100%;
@@ -129,15 +133,22 @@ a:hover {
 }
 
 /* The Close Button */
-.modal .modal-window .close {
+.modal .modal-window .modal-window-tools {
+  display: block;
+  width: 100%;
   color: #BBB;
-  float: right;
   font-size: 1em;
   font-weight: bold;
+  text-align: right;
 }
 
-.modal .modal-window .close:hover,
-.modal .modal-window .close:focus {
+.modal .modal-window .modal-window-tools .modal-window-tool {
+  display: inline-block;
+  margin: 0.125em;
+}
+
+.modal .modal-window .modal-window-tools .modal-window-tool:hover,
+.modal .modal-window .modal-window-tools .modal-window-tool:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -176,4 +187,12 @@ a:hover {
 a.external-link {
   margin-left: 0.5em;
   margin-right: 0.5em;
+}
+
+.gym-info-notes label {
+  display: block;
+  margin-top: 0.25em;
+  margin-bottom: 0.50em;
+  font-size: 1.25em;
+  font-weight: bold;
 }

@@ -27,14 +27,39 @@
     <div id="my-modal" class="modal">
       <!-- Modal content -->
       <div class="modal-window">
-        <span class="modal-window-tools">
-          <span class="fa fa-expand modal-window-tool open-window-btn"></span>
-          <span class="fa fa-times modal-window-tool close-btn"></span>
-        </span>
+        <span class="fa fa-times close"></span>
         <div class="modal-content"></div>
       </div>
     </div>
 
-    <script type="text/javascript" src="search.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var query = $.queryParams();
+        
+        if (query == null || query['name'] == null || query['name'] == '') {
+          $('body').append($('<p>').addClass('missing-query').text('Please provide a name...'));
+        } else {
+          $.ajax({
+              url: 'data/gyms.json',
+              cache : true,
+              contentType : 'application/json',
+              success : function(result, status, xhr) {
+                  var list = result.filter(function(item) {
+                    return item.name === query['name'];
+                  });
+                  
+                  if (list.length === 1) {
+                    $('body').append(generateGymInfo(list[0]));
+                  } else {
+                    $('body').append($('<p>').addClass('missing-query').text('Gym not found...'));
+                  }
+              },
+              error : function(xhr, status, error) {
+                  console.log('Error: ' + error);
+              }
+          });
+        }
+      });
+    </script>
   </body>
 </html>

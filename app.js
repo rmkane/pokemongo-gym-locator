@@ -6,8 +6,15 @@ $(function() {
   });
 
   $('.search-button').on('click', function(e) {
-    window.location.href = 'search.html?' + $.param({
-      q : $('.search .search-term').val().trim()
-    });
+    var query = getQuery();
+    if (query.length > 0) {
+      window.location.href = 'search.html?' + $.param({
+        q : getQuery()
+      });
+    }
   });
 });
+
+function getQuery() {
+  return $('.search .search-term').val().trim();
+}

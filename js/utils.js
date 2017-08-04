@@ -48,7 +48,7 @@ function generateGymInfo(gym, gyms, photoSizeClass) {
       .append($('<label>').text('Gyms Nearby'))
       .append((gyms || []).reduce(function(list, otherGym) {
         var distanceKm = computeDistance(gym.latitude, gym.longitude, otherGym.latitude, otherGym.longitude);
-        if (gym != otherGym && distanceKm <= 2000) {
+        if (list.length < 10 && gym != otherGym && distanceKm <= 2000) {
           list.push({
             name : otherGym.name,
             distance : distanceKm

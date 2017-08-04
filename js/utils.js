@@ -1,8 +1,8 @@
-function generateGymInfo(gym) {
+function generateGymInfo(gym, photoSizeClass) {
   return $('<div>').addClass('gym-info')
     .append($('<h1>').text(gym.name))
     .append($('<p>').html(gym.street + '<br>' + gym.city + ', ' + gym.state + ' ' + gym.zip))
-    .append($('<p>').addClass('photo-disc')
+    .append($('<p>').addClass('photo-disc ' + (photoSizeClass || ''))
       .append($('<div>').addClass('photo-disc-inner').css('background-image', 'url("' + gym.image + '")')))
     .append($('<p>').html(convertDMS(gym.latitude, gym.longitude)))
     .append($('<p>')

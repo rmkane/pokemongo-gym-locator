@@ -230,6 +230,11 @@ a.external-link {
   border-radius: 50% !important;
 }
 
+.photo-disc.photo-disc-photo-large {
+  height: 256px;
+  width: 256px;
+}
+
 .footer {
   background-color: #4ED098;
   position: absolute;

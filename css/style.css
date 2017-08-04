@@ -199,3 +199,32 @@ a.external-link {
   font-size: 1.25em;
   font-weight: bold;
 }
+
+.photo-disc {
+  margin: auto auto;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  height: 256px;
+  width: 256px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.photo-disc {
+  display: block;
+  margin: 0 auto;
+  height: 256px;
+  width: 256px;
+}
+.photo-disc .photo-disc-inner {
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+  background-position: center center;
+  height: 100%;
+  width: 100%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+}

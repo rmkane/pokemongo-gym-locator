@@ -73,6 +73,7 @@ function getArrow(angle) {
   return $('<i>').addClass('fa fa-long-arrow-up fa-rotate-' + deg2 + ' cardinal-direction-arrow');
 }
 
+var MAX_GYM_COUNT = 10;
 function generateGymInfo(gym, gyms, photoSizeClass) {
   var $result = $('<div>').addClass('gym-info')
     .append($('<h1>').text(gym.name))
@@ -88,7 +89,7 @@ function generateGymInfo(gym, gyms, photoSizeClass) {
         return [ data.street, data.city, data.state, data.zip ].join(' ');
       }, gym, 'Directions')))
     .append($('<p>').addClass('gym-info-section')
-      .append($('<label>').text('Notes'))
+      .append($('<span>').addClass('gym-info-section-title').text('Notes'))
       .append($('<span>').text(gym.notes.length > 0 ? gym.notes : 'N/A')));
     
     if (gyms && gyms.length > 0) {
@@ -105,19 +106,32 @@ function generateGymInfo(gym, gyms, photoSizeClass) {
         return list;
       }, []).sort(function(a, b) {
         return a.distance - b.distance;
-      }).slice(0, 10).map(renderGymDistanceInfo);
+      });
+      
+      var minCount = Math.min($gyms.length, MAX_GYM_COUNT);
+      var distanceOfLast = $gyms[minCount - 1].distance;
+      var frmtDistance = '~ ' + formatDistance(roundToNearestDigit(distanceOfLast));
+
+      $gyms = $gyms.slice(0, minCount).map(renderGymDistanceInfo);
     
       $result.append($('<p>').addClass('gym-info-section')
-      .append($('<label>').text('Gyms Nearby (' + $gyms.length + ')'))
-      .append($gyms));
+        .append($('<span>').addClass('gym-info-section-title').text('Gyms Nearby'))
+        .append($('<span>').addClass('gym-info-section-subtitle').text(frmtDistance))
+        .append($gyms));
     }
     
     return $result;
 }
 
+function formatDistance(distanceKm) {
+  var frmtKm = abbreviateNumber(distanceKm) + 'm';
+  var frmtMi = kilometersToMiles(distanceKm / 1e3).toFixed(2) + 'miles';
+  
+  return frmtKm + ' / ' + frmtMi;
+}
+
 function renderGymDistanceInfo(gymInfo) {
-  var frmtKm = abbreviateNumber(gymInfo.distance) + 'm';
-  var frmtMi = kilometersToMiles(gymInfo.distance / 1e3).toFixed(2) + 'miles';
+  var frmtDist = formatDistance(gymInfo.distance);
   var frmtDir = getCardinal3(gymInfo.angle);
   var $arrow = getArrow(gymInfo.angle);
   
@@ -125,7 +139,7 @@ function renderGymDistanceInfo(gymInfo) {
     name : gymInfo.name.replace(/\s+/g, '_')
   })).text(gymInfo.name);
   
-  var $span = $('<span>').html(frmtKm + ' / ' + frmtMi + ' &mdash; ' + frmtDir).addClass('nearby-bearing');
+  var $span = $('<span>').html(frmtDist + ' &mdash; ' + frmtDir).addClass('nearby-bearing');
 
   return $('<p>').append($a).append(' &mdash; ').append($span).append($arrow);
 }

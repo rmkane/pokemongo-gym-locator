@@ -242,12 +242,24 @@ a.external-link {
   margin-right: 0.5em;
 }
 
-.gym-info-section label {
+.gym-info-section .gym-info-section-title,
+.gym-info-section .gym-info-section-subtitle {
   display: block;
+  font-weight: bold;
+}
+
+.gym-info-section .gym-info-section-title {
   margin-top: 1.25em;
   margin-bottom: 0.5em;
   font-size: 1.25em;
-  font-weight: bold;
+}
+
+.gym-info-section .gym-info-section-subtitle {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-size: 0.85em;
+  font-style: italic;
+  color: #666;
 }
 
 .photo-disc {

@@ -48,6 +48,10 @@ a:hover {
   height: 10%;
 }
 
+.page-gym.logo {
+  height: 10%;
+}
+
 .logo img {
     display: block;
     margin: 0 auto;
@@ -78,8 +82,10 @@ a:hover {
 
 .search-button {
   position: absolute;
-  right: -1em;
-  height: 1.8em;
+  top: 0.25em;
+  right: -0.75em;
+  height: 2em;
+  width: 2em;
   border: 0.125em solid #4ED098;
   background: #4ED098;
   text-align: center;
@@ -93,11 +99,12 @@ a:hover {
 
 .search-button .fa-search {
   display: inline-block;
+  margin: 0 auto;
 }
 
 /*Resize the wrap to see the search bar change!*/
 .wrap {
-  width: 60%;
+  width: 75%;
   position: absolute;
   top: 50%;
   left: 50%;

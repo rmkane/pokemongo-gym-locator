@@ -6,6 +6,7 @@ function replaceUnderscore(str) {
   if (str.indexOf('_') > -1) {
     return str.replace(/[_]+/g, ' ');
   }
+  return str;
 }
 
 function aggregateValues(obj, keys) {

@@ -277,11 +277,14 @@ a.external-link {
   -webkit-border-radius: 50% !important;
   -moz-border-radius: 50% !important;
   border-radius: 50% !important;
+  border: 0.1em solid #4A7;
+  box-shadow: 0 0 0.5em #4ED098;
 }
 
 .photo-disc.photo-disc-photo-large {
   height: 256px;
   width: 256px;
+  border-width: 0.25em;
 }
 
 .footer {

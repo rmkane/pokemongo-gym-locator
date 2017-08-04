@@ -20,7 +20,7 @@ $(function() {
             if (list.length === 1) {
               $('body').append(generateGymInfo(list[0], result, 'photo-disc-photo-large'));
             } else {
-              $('body').append($('<p>').addClass('missing-query').text('Gym not found...'));
+               $('body').append($.errorMessage('Gym not found...'));
             }
         },
         error : function(xhr, status, error) {

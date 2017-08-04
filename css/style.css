@@ -304,7 +304,7 @@ a.external-link {
   position: absolute;
   left: 0;
   bottom: 0;
-  height: 1em;
+  height: 2em;
   width: 96%;
   padding: 1em 2%;
   overflow: hidden;
@@ -314,7 +314,7 @@ a.external-link {
 .copyright {
   margin-top: 0;
   margin-bottom: 0;
-  line-height: 1em;
+  line-height: 2em;
 }
 
 .git-star {
@@ -323,7 +323,7 @@ a.external-link {
 
 .git-star iframe {
   position: absolute;
-  top: 0.5em;
+  top: 0.9em;
   right: 0;
   z-index: 100;
 }

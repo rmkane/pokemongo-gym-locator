@@ -20,6 +20,10 @@ $(function() {
               return g1.name.localeCompare(g2.name);
             });
             $('body').append(generateResultList(q));
+            
+            if ($('.result-list').children().length === 0) {
+              $('.result-list').replaceWith($.errorMessage('Could not find any gyms matching: ' + q));
+            }
         },
         error : function(xhr, status, error) {
             console.log('Error: ' + error);

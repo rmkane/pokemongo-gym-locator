@@ -26,6 +26,19 @@ function abbreviateNumber(number, precision) {
   return scaled.toFixed(precision || 2) + prefix;
 }
 
+function formatMiles(number) {
+  suffix = ' miles';
+  if (number < 0.05) {
+    number *= 5280;
+    suffix = ' feet';
+  }
+  if (number < 0.5) {
+    number *= 1760;
+    suffix = ' yards';
+  }
+  return number.toFixed(2) + suffix;
+}
+
 function kilometersToMiles(km) {
   return 0.62137119 * km;
 }
@@ -125,7 +138,7 @@ function generateGymInfo(gym, gyms, photoSizeClass) {
 
 function formatDistance(distanceKm) {
   var frmtKm = abbreviateNumber(distanceKm) + 'm';
-  var frmtMi = kilometersToMiles(distanceKm / 1e3).toFixed(2) + 'miles';
+  var frmtMi = formatMiles(kilometersToMiles(distanceKm / 1e3));
   
   return frmtKm + ' / ' + frmtMi;
 }

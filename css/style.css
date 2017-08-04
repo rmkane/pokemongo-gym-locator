@@ -200,10 +200,10 @@ a.external-link {
   margin-right: 0.5em;
 }
 
-.gym-info-notes label {
+.gym-info-section label {
   display: block;
-  margin-top: 0.25em;
-  margin-bottom: 0.50em;
+  margin-top: 0.75em;
+  margin-bottom: 0.5em;
   font-size: 1.25em;
   font-weight: bold;
 }

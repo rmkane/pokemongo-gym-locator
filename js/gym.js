@@ -1,3 +1,5 @@
+var $modal = null;
+
 $(function() {
   var query = $.queryParams();
   
@@ -19,7 +21,7 @@ $(function() {
             });
 
             if (list.length === 1) {
-              $('body').append(generateGymInfo(list[0], 'photo-disc-photo-large'));
+              $('body').append(generateGymInfo(list[0], result, 'photo-disc-photo-large'));
             } else {
               $('body').append($('<p>').addClass('missing-query').text('Gym not found...'));
             }
@@ -28,5 +30,25 @@ $(function() {
             console.log('Error: ' + error);
         }
     });
+    
+    // Get the modal
+    $modal = $('#my-modal');
+    // Get the <span> element that closes the modal
+    $('.modal .modal-window .close-btn').first().on('click', function(e) {
+      $modal.hide();
+    });
+
+    $('.modal .modal-window .open-window-btn').first().on('click', function(e) {
+      window.location.href = 'gym.html?' + $.param({
+        name : selectedGym.name.replace(/\s+/g, '_')
+      });
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == $modal[0]) {
+        $modal.hide();
+      }
+    }
   }
 });

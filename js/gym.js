@@ -6,10 +6,7 @@ $(function() {
   if (query == null || query['name'] == null || query['name'] == '') {
     $('body').append($('<p>').addClass('missing-query').text('Please provide a name...'));
   } else {
-    var name = query['name'];
-    if (name.indexOf('_') > -1) {
-      name = name.replace(/[_]+/g, ' ');
-    }
+    var name = replaceUnderscore(query['name']);
 
     $.ajax({
         url: 'data/gyms.json',

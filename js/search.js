@@ -9,11 +9,8 @@ $(function() {
     $('body').append(
       $('<p>').addClass('missing-query').text('Please enter a search query...'));
   } else {
-    var q = query['q'];
-    if (q.indexOf('_') > -1) {
-      q = q.replace(/[_]+/g, ' ');
-    }
-    
+    var q = replaceUnderscore(query['q']);
+
     $.ajax({
         url: 'data/gyms.json',
         cache : true,
@@ -39,7 +36,7 @@ $(function() {
 
   $('.modal .modal-window .open-window-btn').first().on('click', function(e) {
     window.location.href = 'gym.html?' + $.param({
-      name : selectedGym.name.replace(/\s+/g, '_')
+      name : replaceSpaces(selectedGym.name)
     });
   });
   

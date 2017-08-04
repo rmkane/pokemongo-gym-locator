@@ -1,7 +1,12 @@
 /** Converts numeric degrees to radians */
 if (typeof(Number.prototype.toRad) === "undefined") {
   Number.prototype.toRad = function() {
-    return this * Math.PI / 180;
+    return this * (Math.PI / 180);
+  }
+}
+if (typeof(Number.prototype.toDeg) === "undefined") {
+  Number.prototype.toDeg = function() {
+    return this * (180 / Math.PI);
   }
 }
 
@@ -25,6 +30,49 @@ function kilometersToMiles(km) {
   return 0.62137119 * km;
 }
 
+/** @unused - https://gist.github.com/basarat/4670200 */
+// Given "0 - 360" returns the nearest cardinal direction "N/NE/E/SE/S/SW/W/NW/N" 
+function getCardinal(angle) {
+  // Easy to customize by changing the number of directions you have 
+  var directions = 8;
+  var degree = 360 / directions;
+  angle = angle + degree / 2;
+  if (angle >= 0 * degree && angle < 1 * degree) return "N";
+  if (angle >= 1 * degree && angle < 2 * degree) return "NE";
+  if (angle >= 2 * degree && angle < 3 * degree) return "E";
+  if (angle >= 3 * degree && angle < 4 * degree) return "SE";
+  if (angle >= 4 * degree && angle < 5 * degree) return "S";
+  if (angle >= 5 * degree && angle < 6 * degree) return "SW";
+  if (angle >= 6 * degree && angle < 7 * degree) return "W";
+  if (angle >= 7 * degree && angle < 8 * degree) return "NW";
+  return "N"; // Should never happen: 
+}
+
+/** http://climate.umn.edu/snow_fence/components/winddirectionanddegreeswithouttable3.htm */
+function getCardinalInner(angle, directions) {
+  var degree = 360 / directions.length;
+  var slice = Math.floor((angle + degree / 2) / degree) % directions.length;
+  return directions[slice];
+}
+function getCardinal2(angle) {
+  var directions = [ 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW' ];
+  return getCardinalInner(angle, directions);
+}
+function getCardinal3(angle) {
+  var directions = [ 'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW' ];
+  return getCardinalInner(angle, directions);
+}
+
+function getArrow(angle) {
+  var directions = 8;
+  var degree = 360 / directions;
+  var slice = Math.floor((angle + degree / 2) / degree) % directions;
+  
+  var deg2 = slice * degree;
+  
+  return $('<i>').addClass('fa fa-long-arrow-up fa-rotate-' + deg2 + ' cardinal-direction-arrow');
+}
+
 function generateGymInfo(gym, gyms, photoSizeClass) {
   var $result = $('<div>').addClass('gym-info')
     .append($('<h1>').text(gym.name))
@@ -44,32 +92,42 @@ function generateGymInfo(gym, gyms, photoSizeClass) {
       .append($('<span>').text(gym.notes.length > 0 ? gym.notes : 'N/A')));
     
     if (gyms && gyms.length > 0) {
-      $result.append($('<p>').addClass('gym-info-section')
-      .append($('<label>').text('Gyms Nearby'))
-      .append((gyms || []).reduce(function(list, otherGym) {
+      var $gyms = (gyms || []).reduce(function(list, otherGym) {
         var distanceKm = computeDistance(gym.latitude, gym.longitude, otherGym.latitude, otherGym.longitude);
-        if (list.length < 10 && gym != otherGym && distanceKm <= 2000) {
+        var angleDeg = computeAngle(gym.latitude, gym.longitude, otherGym.latitude, otherGym.longitude);
+        if (gym != otherGym) {
           list.push({
             name : otherGym.name,
-            distance : distanceKm
+            distance : distanceKm,
+            angle : angleDeg
           });
         }
         return list;
       }, []).sort(function(a, b) {
         return a.distance - b.distance;
-      }).map(function(gymInfo) {
-      var frmtKm = abbreviateNumber(gymInfo.distance) + 'm';
-      var frmtMi = kilometersToMiles(gymInfo.distance / 1e3).toFixed(2) + 'miles';
-      
-      var $a = $('<a>').attr('href', 'gym.html?' + $.param({
-        name : gymInfo.name.replace(/\s+/g, '_')
-      })).text(gymInfo.name);
-
-      return $('<p>').append($a).append(' &mdash; ' + frmtKm + ' / ' + frmtMi);
-    })));
+      }).slice(0, 10).map(renderGymDistanceInfo);
+    
+      $result.append($('<p>').addClass('gym-info-section')
+      .append($('<label>').text('Gyms Nearby (' + $gyms.length + ')'))
+      .append($gyms));
     }
     
     return $result;
+}
+
+function renderGymDistanceInfo(gymInfo) {
+  var frmtKm = abbreviateNumber(gymInfo.distance) + 'm';
+  var frmtMi = kilometersToMiles(gymInfo.distance / 1e3).toFixed(2) + 'miles';
+  var frmtDir = getCardinal3(gymInfo.angle);
+  var $arrow = getArrow(gymInfo.angle);
+  
+  var $a = $('<a>').attr('href', 'gym.html?' + $.param({
+    name : gymInfo.name.replace(/\s+/g, '_')
+  })).text(gymInfo.name);
+  
+  var $span = $('<span>').html(frmtKm + ' / ' + frmtMi + ' &mdash; ' + frmtDir).addClass('nearby-bearing');
+
+  return $('<p>').append($a).append(' &mdash; ').append($span).append($arrow);
 }
 
 function createLink(url, fn, data, text) {
@@ -82,13 +140,31 @@ function computeDistance(lat1, lon1, lat2, lon2) {
   var R = 6371e3; // metres
   var rad1 = lat1.toRad();
   var rad2 = lat2.toRad();
-  var deltaLat = (lat2 - lat1).toRad();
-  var deltaLon = (lon2 - lon1).toRad();
-  var a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
-          Math.cos(rad1)       * Math.cos(rad2) *
-          Math.sin(deltaLon/2) * Math.sin(deltaLon/2);
+  var dLat = (lat2 - lat1).toRad();
+  var dLon = (lon2 - lon1).toRad();
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(rad1)   * Math.cos(rad2) *
+          Math.sin(dLon/2) * Math.sin(dLon/2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return R * c;
+}
+
+/** https://stackoverflow.com/questions/8502795 */
+function computeAngle(lat1, lon1, lat2, lon2) {
+  var dLat = (lat2 - lat1).toRad();
+  var dLon = (lon2 - lon1).toRad();
+  lat1 = lat1.toRad();
+  lat2 = lat2.toRad();
+  var y = Math.sin(dLon) * Math.cos(lat2);
+  var x = Math.cos(lat1) * Math.sin(lat2) -
+          Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+  var brng = Math.atan2(y, x).toDeg();
+  // Fix negative degrees
+  if (brng < 0) {
+      brng = 360 - Math.abs(brng);
+  }
+
+  return brng;
 }
 
 /** https://stackoverflow.com/a/37893239 */

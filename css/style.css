@@ -14,6 +14,48 @@ input, textarea {
   max-width: 100%
 }
 
+/** Font Awesome */
+:root .fa-rotate-45,
+:root .fa-rotate-135,
+:root .fa-rotate-225,
+:root .fa-rotate-315 {
+  filter: none;
+}
+
+.fa-rotate-45 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.fa-rotate-135 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+.fa-rotate-225 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
+  transform: rotate(225deg);
+}
+.fa-rotate-315 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  transform: rotate(315deg);
+}
+
+.nearby-bearing {
+  font-size: smaller;
+  color: #444;
+}
+.cardinal-direction-arrow {
+  margin-left: 0.6667em;
+  color: #D44;
+}
+
 /** Links */
 a {
   text-decoration: none;
@@ -202,7 +244,7 @@ a.external-link {
 
 .gym-info-section label {
   display: block;
-  margin-top: 0.75em;
+  margin-top: 1.25em;
   margin-bottom: 0.5em;
   font-size: 1.25em;
   font-weight: bold;

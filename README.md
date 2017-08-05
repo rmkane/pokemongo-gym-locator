@@ -12,8 +12,8 @@ Place `.htaccess` file in root directory of website. This site is currently desi
 
 ```
 RewriteEngine on
-RewriteRule   ^pokemongo-gym-locator/search/(\w+[\w\s']+)/?$   pokemongo-gym-locator/search.html?q=$1    [NC,L]    # Handle search requests
-RewriteRule   ^pokemongo-gym-locator/gym/(\w+[\w\s']+)/?$      pokemongo-gym-locator/gym.html?name=$1    [NC,L]    # Handle gym requests
+RewriteRule   ^pokemongo-gym-locator/search/(\w+[\w\s-'\(\)]+)/?$   pokemongo-gym-locator/search.html?q=$1   [NC,L]   # Handle search requests
+RewriteRule   ^pokemongo-gym-locator/gym/(\w+[\w\s-'\(\)]+)/?$      pokemongo-gym-locator/gym.html?name=$1   [NC,L]   # Handle gym requests
 ```
 
 ## Future Work

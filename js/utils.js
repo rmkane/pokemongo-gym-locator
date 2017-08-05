@@ -148,9 +148,7 @@ function renderGymDistanceInfo(gymInfo) {
   var frmtDir = getCardinal3(gymInfo.angle);
   var $arrow = getArrow(gymInfo.angle);
   
-  var $a = $('<a>').attr('href', 'gym.html?' + $.param({
-    name : gymInfo.name.replace(/\s+/g, '_')
-  })).text(gymInfo.name);
+  var $a = $('<a>').attr('href', '../gym/' + gymInfo.name.replace(/\s+/g, '_')).text(gymInfo.name);
   
   var $span = $('<span>').html(frmtDist + ' &mdash; ' + frmtDir).addClass('nearby-bearing');
 

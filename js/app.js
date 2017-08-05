@@ -8,9 +8,7 @@ $(function() {
   $('.search-button').on('click', function(e) {
     var query = getQuery();
     if (query.length > 0) {
-      window.location.href = 'search.html?' + $.param({
-        q : replaceSpaces(getQuery())
-      });
+      window.location.href = 'search/' + replaceSpaces(getQuery());
     }
   });
 });

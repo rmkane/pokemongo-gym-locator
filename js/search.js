@@ -3,33 +3,27 @@ var gymList = null;
 var selectedGym = null;
 
 $(function() {
-  var query = $.queryParams();
+  var q = window.location.pathname.split(/\//g).pop();
+  var path = replaceUnderscore(q);
   
-  if (query == null || query['q'] == null || query['q'] == '') {
-    $('body').append(
-      $('<p>').addClass('missing-query').text('Please enter a search query...'));
-  } else {
-    var q = replaceUnderscore(query['q']);
-
-    $.ajax({
-        url: 'data/gyms.json',
-        cache : true,
-        contentType : 'application/json',
-        success : function(result, status, xhr) {
-            gymList = result.sort(function(g1, g2) {
-              return g1.name.localeCompare(g2.name);
-            });
-            $('body').append(generateResultList(q));
-            
-            if ($('.result-list').children().length === 0) {
-              $('.result-list').replaceWith($.errorMessage('Could not find any gyms matching: ' + q));
-            }
-        },
-        error : function(xhr, status, error) {
-            console.log('Error: ' + error);
-        }
-    });
-  }
+  $.ajax({
+      url: '../data/gyms.json',
+      cache : true,
+      contentType : 'application/json',
+      success : function(result, status, xhr) {
+          gymList = result.sort(function(g1, g2) {
+            return g1.name.localeCompare(g2.name);
+          });
+          $('body').append(generateResultList(q));
+          
+          if ($('.result-list').children().length === 0) {
+            $('.result-list').replaceWith($.errorMessage('Could not find any gyms matching: ' + q));
+          }
+      },
+      error : function(xhr, status, error) {
+          console.log('Error: ' + error);
+      }
+  });
   
   // Get the modal
   $modal = $('#my-modal');
@@ -39,9 +33,7 @@ $(function() {
   });
 
   $('.modal .modal-window .open-window-btn').first().on('click', function(e) {
-    window.location.href = 'gym.html?' + $.param({
-      name : replaceSpaces(selectedGym.name)
-    });
+    window.location.href = '../gym/' + replaceSpaces(selectedGym.name);
   });
   
   // When the user clicks anywhere outside of the modal, close it

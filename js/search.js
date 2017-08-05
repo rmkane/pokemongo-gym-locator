@@ -14,10 +14,10 @@ $(function() {
           gymList = result.sort(function(g1, g2) {
             return g1.name.localeCompare(g2.name);
           });
-          $('body').append(generateResultList(q));
+          $('body').append(generateResultList(path));
           
           if ($('.result-list').children().length === 0) {
-            $('.result-list').replaceWith($.errorMessage('Could not find any gyms matching: ' + q));
+            $('.result-list').replaceWith($.errorMessage('Could not find any gyms matching: ' + path));
           }
       },
       error : function(xhr, status, error) {
